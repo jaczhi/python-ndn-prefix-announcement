@@ -4,6 +4,7 @@ from ndn.transport.nfd_registerer import NfdRegister
 from ndn.transport.prefix_registerer import PrefixRegisterer
 from ndn import utils, security, types
 from ndn.app_support import nfd_mgmt
+from .prefix_announce_lib import create_announcement_object
 import asyncio
 import random
 
@@ -41,18 +42,7 @@ async def announce_prefix(app: NDNApp, name: NonStrictName, interest_signer: Sig
                 break
             await asyncio.sleep(0.001)
         try:
-            ann_obj_name = name + [Component.from_str('32=PA'), Component.from_version(1), Component.from_segment(0)]
-
-            class AnnObjModel(TlvModel):
-                expiration = UintField(0x6d)
-
-            ann_obj_model = AnnObjModel()
-            ann_obj_model.expiration = expiration
-
-            ann_obj = make_data(ann_obj_name,
-                                MetaInfo(content_type=5),
-                                ann_obj_model.encode(),
-                                pa_signer)
+            ann_obj = create_announcement_object(name, pa_signer, expiration)
 
             _, reply, _ = await app.express(
                 name='/localhop/nfd/rib/announce',
