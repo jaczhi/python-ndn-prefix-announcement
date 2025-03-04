@@ -1,4 +1,4 @@
-from ndn.encoding import Component, MetaInfo, Name, NonStrictName, Signer, TlvModel, UintField, make_data, parse_data
+from ndn.encoding import Component, MetaInfo, Name, NonStrictName, Signer, SignaturePtrs, TlvModel, UintField, make_data, parse_data
 from typing import Union
 
 
@@ -33,3 +33,11 @@ def change_announcement_signature(announcement: Union[bytearray, memoryview],
                         pa_signer)
 
     return ann_obj
+
+
+def parse_announcement(announcement: Union[bytearray, memoryview]) -> (Name, int, SignaturePtrs):
+    name, _, content, sigs = parse_data(announcement)
+
+    ann_obj_model = AnnObjModel.parse(content)
+
+    return name[:-3], ann_obj_model.expiration, sigs

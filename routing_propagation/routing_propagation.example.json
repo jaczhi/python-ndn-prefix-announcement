@@ -1,0 +1,30 @@
+{
+  "sidecar_prefix": "/ndn/edu/ucla/%C1.Router/suns/pa-sidecar",
+  "sidecar_signer": {
+    "<example>": "these properties are passed to sign_args in python-ndn to locate the signer"
+  },
+  "neighbors": [
+    {
+      "name": "arizona",
+      "key": "this is compared to the cert name in the key locator field",
+      "face": 123,
+      "inbound": ["/foo/bar", "/example/ndn/1/2/3"],
+      "outbound": ["/my/customer/prefix", "/my/customer/prefix2"],
+      "outbound_sidecar_prefix": "/ndn/edu/arizona/%C1.Router/etc/pa-sidecar",
+      "outbound_signer": {
+        "<example>": "these properties are passed to sign_args in python-ndn to locate the signer"
+      }
+    },
+    {
+      "name": "wustl",
+      "key": "this is compared to the cert name in the key locator field",
+      "face": 456,
+      "inbound": ["/foo/bar", "/example"],
+      "outbound": ["/my/public/site"],
+      "outbound_sidecar_prefix": "/ndn/edu/wustl/%C1.Router/etc/pa-sidecar",
+      "outbound_signer": {
+        "<example>": "these properties are passed to sign_args in python-ndn to locate the signer"
+      }
+    }
+  ]
+}
